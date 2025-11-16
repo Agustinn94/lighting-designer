@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agustín Gutiérrez - Lighting Designer & Researcher</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eef5 100%);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            user-select: none;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        nav {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #764ba2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            background: white;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        section h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .profile-image {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-placeholder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+            color: white;
+            font-size: 4rem;
+            font-weight: bold;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .admin-mode .profile-image:hover::after {
+            content: '📸 Click to change';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .about-text h3 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+            text-align: justify;
+            font-weight: 400;
+        }
+
+        .editable-text {
+            position: relative;
+        }
+
+        .admin-mode .editable-text:hover {
+            outline: 2px dashed #667eea;
+            cursor: pointer;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .admin-mode .skill-tag {
+            padding-right: 2rem;
+        }
+
+        .remove-skill-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.3);
+            border: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: white;
+        }
+
+        .admin-mode .remove-skill-btn {
+            display: flex;
+        }
+
+        .add-skill-btn {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            border: 2px dashed #667eea;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            display: none;
+            font-weight: 500;
+        }
+
+        .admin-mode .add-skill-btn {
+            display: inline-block;
+        }
+
+        .featured-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .featured-section h2 {
+            color: white;
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .project-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 0.7rem 1.5rem;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .admin-mode .filter-btn.deletable {
+            padding-right: 2.5rem;
+        }
+
+        .remove-category-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(231, 76, 60, 0.8);
+            color: white;
+            border: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .admin-mode .remove-category-btn {
+            display: flex;
+        }
+
+        .add-category-btn {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            border: 2px dashed #667eea;
+            display: none;
+        }
+
+        .admin-mode .add-category-btn {
+            display: block;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .project-images-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-counter {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-content h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .project-category {
+            display: inline-block;
+            background: #f0f0f0;
+            color: #666;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .project-content p {
+            color: #666;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .delete-project-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .admin-mode .project-card:hover .delete-project-btn {
+            display: flex;
+        }
+
+        .delete-project-btn:hover {
+            background: rgba(192, 57, 43, 1);
+            transform: scale(1.1);
+        }
+
+        .publications-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .publication-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .publication-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .publication-item h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .publication-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .publication-type {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            font-weight: 500;
+        }
+
+        .delete-publication-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-mode .publication-item:hover .delete-publication-btn {
+            display: flex;
+        }
+
+        .add-publication-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: none;
+            margin-top: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .admin-mode .add-publication-btn {
+            display: block;
+        }
+
+        .project-view-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .project-view-modal.show {
+            display: flex;
+        }
+
+        .project-view-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 1000px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-view-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            z-index: 10;
+            transition: all 0.3s;
+        }
+
+        .close-view-btn:hover {
+            background: rgba(0,0,0,0.9);
+            transform: scale(1.1);
+        }
+
+        .image-gallery {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .gallery-image {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .gallery-image.active {
+            display: block;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .gallery-nav:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .gallery-prev {
+            left: 1rem;
+        }
+
+        .gallery-next {
+            right: 1rem;
+        }
+
+        .gallery-indicators {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .gallery-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .gallery-dot.active {
+            background: white;
+            transform: scale(1.3);
+        }
+
+        .project-view-info {
+            padding: 2rem;
+        }
+
+        .project-view-info h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .admin-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.95);
+            color: white;
+            padding: 1rem;
+            display: none;
+            justify-content: center;
+            gap: 1rem;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+
+        .admin-bar.show {
+            display: flex;
+        }
+
+        .admin-btn {
+            padding: 0.7rem 1.5rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .admin-btn:hover {
+            background: #764ba2;
+        }
+
+        .admin-btn.delete {
+            background: #e74c3c;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            max-width: 700px;
+            width: 90%;
+            margin: 2rem auto;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h2 {
+            color: #667eea;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+
+        .images-preview-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .image-preview-item {
+            position: relative;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .image-preview-item img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .remove-image-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-save {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #764ba2;
+        }
+
+        .btn-cancel {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            transition: background 0.3s;
+        }
+
+        .contact-item:hover {
+            background: #e9ecef;
+        }
+
+        .contact-icon {
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+
+        .contact-item a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            color: #667eea;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .image-gallery {
+                height: 300px;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #95a5a6;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>💡 Agustín Gutiérrez</h1>
+        <p>Lighting Designer & Research Collaborator</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#featured">Featured Work</a></li>
+            <li><a href="#projects">All Projects</a></li>
+            <li><a href="#publications">Publications</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="https://docs.google.com/document/d/180cIP6Ou-YOxNVwlvS-IiDhhw0F0m4G2/edit?usp=drive_link&ouid=114248118184341970974&rtpof=true&sd=true" target="_blank">📄 View CV</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <div>
+                    <div class="profile-image" onclick="changeProfilePicture()">
+                        <div id="profileContainer" class="profile-placeholder">AG</div>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <h3>Professional Background</h3>
+                    <p class="editable-text" id="aboutText1" onclick="editText('aboutText1')">
+                        I am a Lighting Designer and research collaborator at the Institute of Research in Light, 
+                        Environment and Vision (ILAV), CONICET-UNT in Argentina. I hold the world's only undergraduate 
+                        degree in Lighting Design from Universidad Nacional de Tucumán.
+                    </p>
+                    <p class="editable-text" id="aboutText2" onclick="editText('aboutText2')">
+                        My work spans from architectural lighting design to advanced research in spectral analysis, 
+                        colorimetry, and photometric measurements. I have professional experience at BALDAI TIENDA & DISEÑO, 
+                        where I designed lighting systems for diverse applications.
+                    </p>
+                    <p class="editable-text" id="aboutText3" onclick="editText('aboutText3')">
+                        As a published researcher (first author in Nature Scientific Data), I specialize in analyzing 
+                        the chromatic diversity of natural objects across continents, combining rigorous scientific methodology 
+                        with creative design thinking.
+                    </p>
+
+                    <h3 style="margin-top: 2rem;">Skills & Expertise</h3>
+                    <div class="skills" id="skillsContainer"></div>
+                    
+                </div>
+            </div>
+        </section>
+
+        <section id="featured" class="featured-section">
+            <h2>Featured Projects</h2>
+            <div id="featuredProjectsContainer" class="project-grid">
+                <div class="loading">Loading featured projects...</div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>All Projects</h2>
+            <div class="project-filters" id="projectFilters"></div>
+            <div id="allProjectsContainer" class="project-grid">
+                <div class="loading">Loading projects...</div>
+            </div>
+        </section>
+
+        <section id="publications">
+            <h2 onclick="togglePublications()" style="cursor: pointer; user-select: none;">
+                Research & Publications <span id="publicationsToggle">▼</span>
+            </h2>
+            <div id="publicationsContent" style="display: block;">
+                <div id="publicationsContainer" class="publications-grid"></div>
+                
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Get In Touch</h2>
+            <p class="editable-text" id="contactText" onclick="editText('contactText')" style="margin-bottom: 2rem;">
+                I'm open to new opportunities and collaborations. Whether you need a lighting designer 
+                for your project or want to discuss research collaborations, feel free to reach out.
+            </p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="contact-icon">📧</span>
+                    <div>
+                        <strong>Email</strong><br>
+                        <a href="/cdn-cgi/l/email-protection#2d4c4a585e594443034a585944485f5f4857031f1514196d4a404c4441034e4240"><span class="__cf_email__" data-cfemail="d0b1b7a5a3a4b9befeb7a5a4b9b5a2a2b5aafee2e8e9e490b7bdb1b9bcfeb3bfbd">[email&#160;protected]</span></a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">💬</span>
+                    <div>
+                        <strong>WhatsApp</strong><br>
+                        <a href="https://wa.me/543813004867" target="_blank">Message me directly</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">💼</span>
+                    <div>
+                        <strong>LinkedIn</strong><br>
+                        <a href="https://www.linkedin.com/in/marceloagustingutierrez" target="_blank">Connect with me</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📍</span>
+                    <div>
+                        <strong>Location</strong><br>
+                        San Miguel de Tucumán, Argentina
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">🔬</span>
+                    <div>
+                        <strong>Institution</strong><br>
+                        ILAV, CONICET-UNT
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Agustín Gutiérrez - Lighting Designer & Researcher</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">
+            Specializing in architectural lighting design and chromatic analysis research
+        </p>
+    </footer>
+
+    <!-- PROJECT VIEW MODAL -->
+    <div id="projectViewModal" class="project-view-modal">
+        <div class="project-view-content">
+            <button class="close-view-btn" onclick="closeProjectView()">×</button>
+            <div class="image-gallery" id="imageGallery">
+                <button class="gallery-nav gallery-prev" onclick="changeImage(-1)">‹</button>
+                <button class="gallery-nav gallery-next" onclick="changeImage(1)">›</button>
+                <div class="gallery-indicators" id="galleryIndicators"></div>
+            </div>
+            <div class="project-view-info" id="projectViewInfo"></div>
+        </div>
+    </div>
+
+    <!-- ADMIN BAR -->
+    
+
+    <!-- ADD PROJECT MODAL -->
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Add New Project</h2>
+            <form id="projectForm" onsubmit="saveProject(event)">
+                <div class="form-group">
+                    <label for="projectName">Project Name *</label>
+                    <input type="text" id="projectName" required>
+                </div>
+                <div class="form-group">
+                    <label for="projectCategory">Category *</label>
+                    <select id="projectCategory" required></select>
+                </div>
+                <div class="form-group">
+                    <label for="projectDescription">Description *</label>
+                    <textarea id="projectDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projectImages">Images (Up to 10) - Recommended: 1920x1080px</label>
+                    <input type="file" id="projectImages" accept="image/*" multiple onchange="previewImages(event)">
+                    <div id="imagesPreviewContainer" class="images-preview-container"></div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="projectFeatured">
+                        <label for="projectFeatured">Mark as Featured</label>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-save">Save</button>
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADD PUBLICATION MODAL -->
+    <div id="publicationModal" class="modal">
+        <div class="modal-content">
+            <h2>Add Publication/Conference</h2>
+            <form id="publicationForm" onsubmit="savePublication(event)">
+                <div class="form-group">
+                    <label for="publicationType">Type *</label>
+                    <select id="publicationType" required>
+                        <option value="journal">Journal Article</option>
+                        <option value="conference">Conference</option>
+                        <option value="presentation">Presentation</option>
+                        <option value="poster">Poster</option>
+                        <option value="fellowship">Fellowship</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="publicationTitle">Title *</label>
+                    <input type="text" id="publicationTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="publicationAuthors">Authors</label>
+                    <input type="text" id="publicationAuthors" placeholder="Gutiérrez, M.A., et al.">
+                </div>
+                <div class="form-group">
+                    <label for="publicationVenue">Venue/Journal *</label>
+                    <input type="text" id="publicationVenue" required>
+                </div>
+                <div class="form-group">
+                    <label for="publicationYear">Year *</label>
+                    <input type="number" id="publicationYear" required min="2000" max="2030">
+                </div>
+                <div class="form-group">
+                    <label for="publicationDescription">Description</label>
+                    <textarea id="publicationDescription"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-save">Save</button>
+                    <button type="button" class="btn-cancel" onclick="closePublicationModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- EDIT TEXT MODAL -->
+    <div id="editTextModal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Text</h2>
+            <div class="form-group">
+                <textarea id="editTextArea" rows="8"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-save" onclick="saveEditedText()">Save</button>
+                <button class="btn-cancel" onclick="closeEditTextModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MANAGE CATEGORIES MODAL -->
+    <div id="categoriesModal" class="modal">
+        <div class="modal-content">
+            <h2>Manage Categories</h2>
+            <div id="categoriesListEdit"></div>
+            <div class="form-group" style="margin-top: 2rem;">
+                <label>Add New Category</label>
+                <div style="display: flex; gap: 1rem;">
+                    <input type="text" id="newCategoryName" placeholder="Category Name" style="flex: 1;">
+                    <button onclick="addCategory()" style="padding: 0.8rem 1.5rem; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 600;">Add</button>
+                </div>
+            </div>
+            <div class="modal-actions" style="margin-top: 2rem;">
+                <button class="btn-save" onclick="closeCategoriesModal()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="profilePictureInput" accept="image/*" style="display:none" onchange="handleProfilePicture(event)">
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        let projects = [{"id": 1763268177539, "name": "das", "category": "architecture", "description": "asdas", "images": ["images/proyecto-1763268177539-foto-1.jpg"], "featured": false}, {"id": 1763268455530, "name": "kkk", "category": "architecture", "description": "kkk", "images": ["images/proyecto-1763268455530-foto-1.png"], "featured": false}];
+        let publications = [{"id": 1, "type": "journal", "title": "Spectral dataset of natural objects' reflectance from the Southern cone of South America", "authors": "Gutiérrez, A., Silva, B., Fanchini, J.M., Morimoto, T., Barrionuevo, P.A., & Sandoval-Salinas, M.L.", "venue": "Scientific Data, 12:594 (2025)", "year": 2025, "description": "DOI: 10.1038/s41597-025-04675-9"}, {"id": 2, "type": "conference", "title": "Rutina de calibración para la cuantificación del color a través de cámaras fotográficas calibradas", "authors": "Marcelo Agustín Gutiérrez, Pablo Alejandro Barrionuevo y María Leonor Sandoval-Salinas", "venue": "XVII Jornadas Argentinas de Luminotecnia LUZ 2025 - CCT Mendoza, CONICET", "year": 2025, "description": "10-12 septiembre 2025 - ISBN: En proceso"}, {"id": 3, "type": "conference", "title": "Uso de fotografía digital para la cuantificación del color animal en la investigación biológica", "authors": "Marcelo Agustín Gutiérrez (Expositor). Orientadores: María Leonor Sandoval-Salinas y Pablo Alejandro Barrionuevo", "venue": "XXXI Jornadas de Jóvenes Investigadores - AUGM, Montevideo, Uruguay", "year": 2024, "description": "6-8 noviembre 2024"}, {"id": 4, "type": "conference", "title": "Mediciones espectrales de objetos naturales en el norte de Argentina", "authors": "M. Agustín Gutiérrez, Bárbara Silva, Pablo A. Barrionuevo, José María Fanchini, Takuma Morimoto y María L. Sandoval-Salinas", "venue": "15° Congreso Argentino de Color ArgenColor 2024", "year": 2024, "description": "22 mayo 2024 - ISBN: 978-987-8486-54-3"}, {"id": 5, "type": "conference", "title": "Análisis comparativo del crecimiento de dos especies de plantas bajo distintas fuentes de luz artificial", "authors": "María Paula Fortuna y Marcelo Agustín Gutiérrez", "venue": "XXX Jornadas de Jóvenes Investigadores - AUGM", "year": 2023, "description": "13 octubre 2023"}, {"id": 6, "type": "conference", "title": "Análisis comparativo del crecimiento de dos especies de plantas bajo distintas fuentes de luz artificial", "authors": "María Paula Fortuna y Marcelo Agustín Gutiérrez", "venue": "XVI Jornadas Argentinas de Luminotecnia LUZ 2023", "year": 2023, "description": "2 septiembre 2023 - ISBN: 978-631-00-2823-1"}, {"id": 7, "type": "conference", "title": "Comparación de parámetros de dos cámaras DSLR para la obtención de características colorimétricas de una escena visual", "authors": "José María Fanchini, M. Agustín Gutiérrez, Bárbara Silva, María L. Sandoval-Salinas y Pablo A. Barrionuevo", "venue": "14° Congreso Argentino de Color ArgenColor 2022", "year": 2022, "description": "11 octubre 2022 - ISBN: 978-987-754-303-2"}, {"id": 8, "type": "conference", "title": "La iluminación y la percepción de seguridad en el Parque Avellaneda de la ciudad de San Miguel de Tucumán", "authors": "Marcelo Agustín Gutiérrez, María Paula Fortuna y Javier Domínguez", "venue": "XV Jornadas Argentinas de Luminotecnia LUZ 2022", "year": 2022, "description": "10 noviembre 2022 - ISBN: 978-987-20335-9-0"}, {"id": 9, "type": "fellowship", "title": "BEI Research Fellowship", "authors": "Recipient", "venue": "ILAV, CONICET-UNT", "year": 2024, "description": "Research fellowship supporting investigations in lighting, environment, and vision sciences"}, {"id": 10, "type": "fellowship", "title": "EVC-CIN Research Fellowship", "authors": "Recipient", "venue": "Consejo Interuniversitario Nacional (CIN)", "year": 2024, "description": "National research fellowship supporting advanced research in lighting design and environmental vision research"}];
+        let categories = JSON.parse(localStorage.getItem('projectCategories')) || [
+            {id: 'architecture', name: 'Architecture'},
+            {id: 'retail', name: 'Retail & Commercial'},
+            {id: 'public', name: 'Public Lighting'},
+            {id: 'research', name: 'Research'},
+            {id: 'residential', name: 'Residential'},
+            {id: 'outdoor', name: 'Outdoor & Landscape'},
+            {id: 'custom', name: 'Custom Fixtures'}
+        ];
+        let skills = JSON.parse(localStorage.getItem('skills')) || [
+            'DIALux Evo', 'AutoCAD', 'SketchUp', 'MATLAB', 'Spectral Analysis',
+            'Colorimetry', 'Photometric Design', 'Architectural Lighting',
+            'Research Methodology', '3D Printing'
+        ];
+        let tempImages = [];
+        let currentImageIndex = 0;
+        let currentViewProject = null;
+        let isAdminMode = false;
+        let currentEditElement = null;
+
+        let profilePicture = localStorage.getItem('profilePicture');
+        if (profilePicture) {
+            document.getElementById('profileContainer').innerHTML = `<img src="${profilePicture}" alt="Profile">`;
+        }
+
+        function changeProfilePicture() {
+            if (!isAdminMode) return;
+            document.getElementById('profilePictureInput').click();
+        }
+
+        function handleProfilePicture(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profilePicture = e.target.result;
+                    localStorage.setItem('profilePicture', profilePicture);
+                    document.getElementById('profileContainer').innerHTML = `<img src="${profilePicture}" alt="Profile">`;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function init() {
+            renderSkills();
+            renderProjects();
+            renderCategories();
+            renderPublications();
+            
+            if (projects.length === 0) {
+                projects = [
+                    {
+                        id: 1,
+                        name: "Modern Office Complex",
+                        category: "architecture",
+                        description: "Dynamic lighting design for a 15-story office building featuring circadian rhythm lighting systems and energy-efficient LED solutions.",
+                        images: [],
+                        featured: true
+                    },
+                    {
+                        id: 2,
+                        name: "Boutique Retail Store",
+                        category: "retail",
+                        description: "Custom lighting installation emphasizing product displays with adjustable color temperature and accent lighting.",
+                        images: [],
+                        featured: true
+                    },
+                    {
+                        id: 3,
+                        name: "Street Lighting Modernization",
+                        category: "public",
+                        description: "Complete LED street lighting upgrade for a 5km urban corridor with smart controls and 60% energy savings.",
+                        images: [],
+                        featured: true
+                    }
+                ];
+                localStorage.setItem('lightingProjects', JSON.stringify(projects));
+            }
+
+            if (publications.length === 0) {
+                publications = [
+                    {id: 1, type: 'journal', title: 'Spectral dataset of natural objects\' reflectance from the Southern cone of South America', authors: 'Gutiérrez, A., Silva, B., Fanchini, J.M., Morimoto, T., Barrionuevo, P.A., & Sandoval-Salinas, M.L.', venue: 'Scientific Data, 12:594 (2025)', year: 2025, description: 'DOI: 10.1038/s41597-025-04675-9'},
+                    {id: 2, type: 'conference', title: 'Rutina de calibración para la cuantificación del color a través de cámaras fotográficas calibradas', authors: 'Marcelo Agustín Gutiérrez, Pablo Alejandro Barrionuevo y María Leonor Sandoval-Salinas', venue: 'XVII Jornadas Argentinas de Luminotecnia LUZ 2025 - CCT Mendoza, CONICET', year: 2025, description: '10-12 septiembre 2025 - ISBN: En proceso'},
+                    {id: 3, type: 'conference', title: 'Uso de fotografía digital para la cuantificación del color animal en la investigación biológica', authors: 'Marcelo Agustín Gutiérrez (Expositor). Orientadores: María Leonor Sandoval-Salinas y Pablo Alejandro Barrionuevo', venue: 'XXXI Jornadas de Jóvenes Investigadores - AUGM, Montevideo, Uruguay', year: 2024, description: '6-8 noviembre 2024'},
+                    {id: 4, type: 'conference', title: 'Mediciones espectrales de objetos naturales en el norte de Argentina', authors: 'M. Agustín Gutiérrez, Bárbara Silva, Pablo A. Barrionuevo, José María Fanchini, Takuma Morimoto y María L. Sandoval-Salinas', venue: '15° Congreso Argentino de Color ArgenColor 2024', year: 2024, description: '22 mayo 2024 - ISBN: 978-987-8486-54-3'},
+                    {id: 5, type: 'conference', title: 'Análisis comparativo del crecimiento de dos especies de plantas bajo distintas fuentes de luz artificial', authors: 'María Paula Fortuna y Marcelo Agustín Gutiérrez', venue: 'XXX Jornadas de Jóvenes Investigadores - AUGM', year: 2023, description: '13 octubre 2023'},
+                    {id: 6, type: 'conference', title: 'Análisis comparativo del crecimiento de dos especies de plantas bajo distintas fuentes de luz artificial', authors: 'María Paula Fortuna y Marcelo Agustín Gutiérrez', venue: 'XVI Jornadas Argentinas de Luminotecnia LUZ 2023', year: 2023, description: '2 septiembre 2023 - ISBN: 978-631-00-2823-1'},
+                    {id: 7, type: 'conference', title: 'Comparación de parámetros de dos cámaras DSLR para la obtención de características colorimétricas de una escena visual', authors: 'José María Fanchini, M. Agustín Gutiérrez, Bárbara Silva, María L. Sandoval-Salinas y Pablo A. Barrionuevo', venue: '14° Congreso Argentino de Color ArgenColor 2022', year: 2022, description: '11 octubre 2022 - ISBN: 978-987-754-303-2'},
+                    {id: 8, type: 'conference', title: 'La iluminación y la percepción de seguridad en el Parque Avellaneda de la ciudad de San Miguel de Tucumán', authors: 'Marcelo Agustín Gutiérrez, María Paula Fortuna y Javier Domínguez', venue: 'XV Jornadas Argentinas de Luminotecnia LUZ 2022', year: 2022, description: '10 noviembre 2022 - ISBN: 978-987-20335-9-0'},
+                    {id: 9, type: 'fellowship', title: 'BEI Research Fellowship', authors: 'Recipient', venue: 'ILAV, CONICET-UNT', year: 2024, description: 'Research fellowship supporting investigations in lighting, environment, and vision sciences'},
+                    {id: 10, type: 'fellowship', title: 'EVC-CIN Research Fellowship', authors: 'Recipient', venue: 'Consejo Interuniversitario Nacional (CIN)', year: 2024, description: 'National research fellowship supporting advanced research in lighting design and environmental vision research'}
+                ];
+                localStorage.setItem('lightingPublications', JSON.stringify(publications));
+            }
+        }
+
+        function renderSkills() {
+            document.getElementById('skillsContainer').innerHTML = skills.map(skill => `
+                <span class="skill-tag">
+                    ${skill}
+                    
+                </span>
+            `).join('');
+        }
+
+        function addSkill() {
+            const skill = prompt('Enter new skill:');
+            if (skill && skill.trim()) {
+                skills.push(skill.trim());
+                localStorage.setItem('skills', JSON.stringify(skills));
+                renderSkills();
+            }
+        }
+
+        function removeSkill(skill) {
+            if (confirm(`Remove "${skill}"?`)) {
+                skills = skills.filter(s => s !== skill);
+                localStorage.setItem('skills', JSON.stringify(skills));
+                renderSkills();
+            }
+        }
+
+        function renderCategories() {
+            const filtersContainer = document.getElementById('projectFilters');
+            const categorySelect = document.getElementById('projectCategory');
+            
+            let filtersHTML = '<button class="filter-btn active" data-category="all">All Projects</button>';
+            let selectHTML = '';
+            
+            categories.forEach(cat => {
+                filtersHTML += `
+                    <button class="filter-btn deletable" data-category="${cat.id}">
+                        ${cat.name}
+                        <button class="remove-category-btn" onclick="event.stopPropagation(); removeCategory('${cat.id}')">×</button>
+                    </button>
+                `;
+                selectHTML += `<option value="${cat.id}">${cat.name}</option>`;
+            });
+            
+            filtersHTML += '<button class="filter-btn add-category-btn" onclick="manageCategories()">+ Add Category</button>';
+            
+            filtersContainer.innerHTML = filtersHTML;
+            if (categorySelect) categorySelect.innerHTML = selectHTML;
+            
+            document.querySelectorAll('.filter-btn:not(.add-category-btn)').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    renderProjects(this.dataset.category);
+                });
+            });
+        }
+
+        function manageCategories() {
+            document.getElementById('categoriesListEdit').innerHTML = categories.map(cat => `
+                <div style="display: flex; align-items: center; gap: 1rem; padding: 0.8rem; background: #f8f9fa; border-radius: 6px; margin-bottom: 0.5rem;">
+                    <span style="flex: 1;">${cat.name}</span>
+                    <button onclick="removeCategory('${cat.id}')" style="background: #e74c3c; color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-family: 'Inter', sans-serif;">Delete</button>
+                </div>
+            `).join('');
+            document.getElementById('categoriesModal').classList.add('show');
+        }
+
+        function addCategory() {
+            const name = document.getElementById('newCategoryName').value.trim();
+            if (!name) return alert('Enter a name');
+            const id = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            if (categories.find(c => c.id === id)) return alert('Already exists');
+            categories.push({ id, name });
+            localStorage.setItem('projectCategories', JSON.stringify(categories));
+            document.getElementById('newCategoryName').value = '';
+            renderCategories();
+            manageCategories();
+        }
+
+        function removeCategory(id) {
+            if (confirm('Delete this category?')) {
+                categories = categories.filter(c => c.id !== id);
+                localStorage.setItem('projectCategories', JSON.stringify(categories));
+                renderCategories();
+                if (document.getElementById('categoriesModal').classList.contains('show')) {
+                    manageCategories();
+                }
+            }
+        }
+
+        function closeCategoriesModal() {
+            document.getElementById('categoriesModal').classList.remove('show');
+        }
+
+        function renderProjects(filter = 'all') {
+            const featured = projects.filter(p => p.featured);
+            const all = filter === 'all' ? projects : projects.filter(p => p.category === filter);
+
+            document.getElementById('featuredProjectsContainer').innerHTML = 
+                featured.length === 0 ? '<div class="empty-state"><h3>No featured projects</h3></div>' :
+                featured.map(createProjectCard).join('');
+
+            document.getElementById('allProjectsContainer').innerHTML = 
+                all.length === 0 ? '<div class="empty-state"><h3>No projects found</h3></div>' :
+                all.map(createProjectCard).join('');
+        }
+
+        function createProjectCard(project) {
+            const hasImages = project.images && project.images.length > 0;
+            const imageElement = hasImages ? `<img src="${project.images[0]}" class="project-image">` : `<div class="project-image"></div>`;
+            const imageCounter = hasImages && project.images.length > 1 ? `<div class="image-counter">📷 ${project.images.length}</div>` : '';
+            const category = categories.find(c => c.id === project.category);
+
+            return `
+                <div class="project-card" onclick="viewProject(${project.id})">
+                    
+                    <div class="project-images-container">
+                        ${imageElement}
+                        ${imageCounter}
+                    </div>
+                    <div class="project-content">
+                        <span class="project-category">${category ? category.name : 'Unknown'}</span>
+                        <h3>${project.name}</h3>
+                        <p>${project.description}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function viewProject(id) {
+            const project = projects.find(p => p.id === id);
+            if (!project) return;
+            currentViewProject = project;
+            currentImageIndex = 0;
+
+            const gallery = document.getElementById('imageGallery');
+            let galleryHTML = '';
+            
+            if (project.images && project.images.length > 0) {
+                project.images.forEach((img, index) => {
+                    galleryHTML += `<img src="${img}" class="gallery-image ${index === 0 ? 'active' : ''}">`;
+                });
+                
+                gallery.querySelector('.gallery-prev').style.display = project.images.length > 1 ? 'block' : 'none';
+                gallery.querySelector('.gallery-next').style.display = project.images.length > 1 ? 'block' : 'none';
+                
+                document.getElementById('galleryIndicators').innerHTML = project.images.map((_, i) => 
+                    `<div class="gallery-dot ${i === 0 ? 'active' : ''}" onclick="goToImage(${i})"></div>`
+                ).join('');
+            } else {
+                galleryHTML = '<div class="gallery-image active" style="display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#667eea,#764ba2);color:white;font-size:3rem;">No Image</div>';
+                gallery.querySelector('.gallery-prev').style.display = 'none';
+                gallery.querySelector('.gallery-next').style.display = 'none';
+                document.getElementById('galleryIndicators').innerHTML = '';
+            }
+
+            gallery.querySelectorAll('.gallery-image').forEach(img => img.remove());
+            gallery.insertAdjacentHTML('afterbegin', galleryHTML);
+
+            const category = categories.find(c => c.id === project.category);
+            document.getElementById('projectViewInfo').innerHTML = `
+                <span class="project-category">${category ? category.name : 'Unknown'}</span>
+                <h2>${project.name}</h2>
+                <p>${project.description}</p>
+            `;
+
+            document.getElementById('projectViewModal').classList.add('show');
+        }
+
+        function closeProjectView() {
+            document.getElementById('projectViewModal').classList.remove('show');
+        }
+
+        function changeImage(direction) {
+            if (!currentViewProject || !currentViewProject.images || currentViewProject.images.length <= 1) return;
+
+            const images = document.querySelectorAll('.gallery-image');
+            const dots = document.querySelectorAll('.gallery-dot');
+
+            images[currentImageIndex].classList.remove('active');
+            dots[currentImageIndex].classList.remove('active');
+
+            currentImageIndex += direction;
+            if (currentImageIndex >= currentViewProject.images.length) currentImageIndex = 0;
+            if (currentImageIndex < 0) currentImageIndex = currentViewProject.images.length - 1;
+
+            images[currentImageIndex].classList.add('active');
+            dots[currentImageIndex].classList.add('active');
+        }
+
+        function goToImage(index) {
+            const images = document.querySelectorAll('.gallery-image');
+            const dots = document.querySelectorAll('.gallery-dot');
+            images[currentImageIndex].classList.remove('active');
+            dots[currentImageIndex].classList.remove('active');
+            currentImageIndex = index;
+            images[currentImageIndex].classList.add('active');
+            dots[currentImageIndex].classList.add('active');
+        }
+
+        function deleteProject(id) {
+            if (confirm('Delete this project?')) {
+                projects = projects.filter(p => p.id !== id);
+                localStorage.setItem('lightingProjects', JSON.stringify(projects));
+                renderProjects();
+            }
+        }
+
+        function openAddModal() {
+            document.getElementById('projectForm').reset();
+            document.getElementById('imagesPreviewContainer').innerHTML = '';
+            tempImages = [];
+            renderCategories();
+            document.getElementById('projectModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('projectModal').classList.remove('show');
+        }
+
+        function previewImages(event) {
+            const files = Array.from(event.target.files);
+            files.forEach(file => {
+                if (tempImages.length >= 10) return alert('Max 10 images');
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempImages.push(e.target.result);
+                    renderImagePreviews();
+                }
+                reader.readAsDataURL(file);
+            });
+            event.target.value = '';
+        }
+
+        function renderImagePreviews() {
+            document.getElementById('imagesPreviewContainer').innerHTML = tempImages.map((img, i) => `
+                <div class="image-preview-item">
+                    <img src="${img}">
+                    <button type="button" class="remove-image-btn" onclick="removePreviewImage(${i})">×</button>
+                </div>
+            `).join('');
+        }
+
+        function removePreviewImage(index) {
+            tempImages.splice(index, 1);
+            renderImagePreviews();
+        }
+
+        function saveProject(event) {
+            event.preventDefault();
+            projects.push({
+                id: Date.now(),
+                name: document.getElementById('projectName').value,
+                category: document.getElementById('projectCategory').value,
+                description: document.getElementById('projectDescription').value,
+                images: [...tempImages],
+                featured: document.getElementById('projectFeatured').checked
+            });
+            localStorage.setItem('lightingProjects', JSON.stringify(projects));
+            renderProjects();
+            closeModal();
+            alert('✅ Project added!');
+        }
+
+        function renderPublications() {
+            const sorted = [...publications].sort((a, b) => b.year - a.year);
+            document.getElementById('publicationsContainer').innerHTML = sorted.length === 0 ?
+                '<div class="empty-state"><h3>No publications yet</h3></div>' :
+                sorted.map(pub => {
+                    const typeLabels = {journal: 'Journal', conference: 'Conference', presentation: 'Presentation', poster: 'Poster', fellowship: 'Fellowship'};
+                    return `
+                        <div class="publication-item">
+                            
+                            <span class="publication-type">${typeLabels[pub.type]}</span>
+                            <h3>${pub.title}</h3>
+                            <p class="publication-meta">${pub.authors ? pub.authors + ' · ' : ''}${pub.venue} (${pub.year})</p>
+                            ${pub.description ? `<p>${pub.description}</p>` : ''}
+                        </div>
+                    `;
+                }).join('');
+        }
+
+        function togglePublications() {
+            const content = document.getElementById('publicationsContent');
+            const toggle = document.getElementById('publicationsToggle');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                toggle.textContent = '▼';
+            } else {
+                content.style.display = 'none';
+                toggle.textContent = '▶';
+            }
+        }
+
+        function openAddPublicationModal() {
+            document.getElementById('publicationForm').reset();
+            document.getElementById('publicationModal').classList.add('show');
+        }
+
+        function closePublicationModal() {
+            document.getElementById('publicationModal').classList.remove('show');
+        }
+
+        function savePublication(event) {
+            event.preventDefault();
+            publications.push({
+                id: Date.now(),
+                type: document.getElementById('publicationType').value,
+                title: document.getElementById('publicationTitle').value,
+                authors: document.getElementById('publicationAuthors').value,
+                venue: document.getElementById('publicationVenue').value,
+                year: parseInt(document.getElementById('publicationYear').value),
+                description: document.getElementById('publicationDescription').value
+            });
+            localStorage.setItem('lightingPublications', JSON.stringify(publications));
+            renderPublications();
+            closePublicationModal();
+            alert('✅ Publication added!');
+        }
+
+        function deletePublication(id) {
+            if (confirm('Delete?')) {
+                publications = publications.filter(p => p.id !== id);
+                localStorage.setItem('lightingPublications', JSON.stringify(publications));
+                renderPublications();
+            }
+        }
+
+        function editText(elementId) {
+            if (!isAdminMode) return;
+            currentEditElement = elementId;
+            const element = document.getElementById(elementId);
+            document.getElementById('editTextArea').value = element.textContent.trim();
+            document.getElementById('editTextModal').classList.add('show');
+        }
+
+        function saveEditedText() {
+            if (currentEditElement) {
+                document.getElementById(currentEditElement).textContent = document.getElementById('editTextArea').value;
+            }
+            closeEditTextModal();
+        }
+
+        function closeEditTextModal() {
+            document.getElementById('editTextModal').classList.remove('show');
+        }
+
+        function exportData() {
+            const data = {projects, publications, categories, skills, profilePicture};
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'portfolio_backup.json';
+            link.click();
+            alert('✅ Exported!');
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        if (data.projects) projects = data.projects;
+                        if (data.publications) publications = data.publications;
+                        if (data.categories) categories = data.categories;
+                        if (data.skills) skills = data.skills;
+                        if (data.profilePicture) {
+                            profilePicture = data.profilePicture;
+                            localStorage.setItem('profilePicture', profilePicture);
+                        }
+                        localStorage.setItem('lightingProjects', JSON.stringify(projects));
+                        localStorage.setItem('lightingPublications', JSON.stringify(publications));
+                        localStorage.setItem('projectCategories', JSON.stringify(categories));
+                        localStorage.setItem('skills', JSON.stringify(skills));
+                        init();
+                        alert('✅ Imported!');
+                    } catch (e) {
+                        alert('❌ Error');
+                    }
+                };
+                reader.readAsText(e.target.files[0]);
+            };
+            input.click();
+        }
+
+        function clearAllProjects() {
+            if (confirm('Delete ALL?')) {
+                projects = [];
+                localStorage.setItem('lightingProjects', JSON.stringify(projects));
+                renderProjects();
+            }
+        }
+
+        // ADMIN TOGGLE - TRIPLE CLICK
+        let clickCount = 0;
+        let clickTimer = null;
+        document.querySelector('h1').addEventListener('click', function() {
+            clickCount++;
+            if (clickCount === 1) {
+                clickTimer = setTimeout(() => clickCount = 0, 1000);
+            }
+            if (clickCount === 3) {
+                clearTimeout(clickTimer);
+                clickCount = 0;
+                isAdminMode = !isAdminMode;
+                document.getElementById('adminBar').classList.toggle('show');
+                document.body.classList.toggle('admin-mode');
+                alert(isAdminMode ? '🔓 ADMIN MODE ACTIVATED' : '🔒 Admin mode disabled');
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (!document.getElementById('projectViewModal').classList.contains('show')) return;
+            if (e.key === 'ArrowLeft') changeImage(-1);
+            else if (e.key === 'ArrowRight') changeImage(1);
+            else if (e.key === 'Escape') closeProjectView();
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                             e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({behavior: 'smooth', block: 'start'});
+            });
+        });
+
+        init();
+    </script>
+
+</body>
+</html>
